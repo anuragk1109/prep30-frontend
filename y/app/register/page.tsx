@@ -1,16 +1,20 @@
 'use client';
 
 import { useState } from 'react';
-import { FiUser, FiMail, FiLock, FiEye, FiEyeOff, FiAlertCircle, FiArrowLeft, FiGithub, FiTwitter } from 'react-icons/fi';
+import { FiUser, FiMail, FiLock, FiEye, FiEyeOff, FiAlertCircle, FiArrowLeft, FiGithub, FiTwitter, FiPhone } from 'react-icons/fi';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { registerUser } from '@/lib/auth';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Register = () => {
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    mobile: ''
   });
   const [showPassword, setShowPassword] = useState({
     password: false,
@@ -57,6 +61,16 @@ const Register = () => {
       return false;
     }
     
+    if (!formData.mobile.trim()) {
+      setError('Please enter your mobile number');
+      return false;
+    }
+    
+    if (!/^\d{10,12}$/.test(formData.mobile.replace(/\s/g, ''))) {
+      setError('Please enter a valid mobile number');
+      return false;
+    }
+    
     return true;
   };
 
@@ -68,19 +82,24 @@ const Register = () => {
 
     try {
       setIsLoading(true);
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // For demo purposes, show success message
+      const { confirmPassword, ...registrationData } = formData;
+      const response = await registerUser(registrationData);
+      
+      // Store token and user in auth context
+      if (response.token) {
+        login(response.token, response.user);
+      }
+      
       setSuccess(true);
       
-      // Redirect to login after 2 seconds
+      // Redirect to profile page after 2 seconds
       setTimeout(() => {
-        router.push('/login');
+        router.push('/profile');
       }, 2000);
       
     } catch (err) {
-      setError('Registration failed. Please try again.');
+      setError(err instanceof Error ? err.message : 'Registration failed. Please try again.');
       console.error('Registration error:', err);
     } finally {
       setIsLoading(false);
@@ -101,14 +120,14 @@ const Register = () => {
               Registration Successful!
             </h2>
             <p className="mt-2 text-sm text-gray-600">
-              Redirecting you to the login page...
+              Redirecting you to your profile...
             </p>
             <div className="mt-6">
               <Link 
-                href="/login" 
+                href="/profile" 
                 className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
               >
-                Go to Login
+                Go to Profile
               </Link>
             </div>
           </div>
@@ -254,6 +273,28 @@ const Register = () => {
                     <FiEye className="h-5 w-5 text-gray-400 hover:text-gray-500" />
                   )}
                 </button>
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="mobile" className="block text-sm font-medium text-gray-700">
+                Mobile Number
+              </label>
+              <div className="mt-1 relative rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <FiPhone className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  id="mobile"
+                  name="mobile"
+                  type="tel"
+                  autoComplete="tel"
+                  required
+                  value={formData.mobile}
+                  onChange={handleChange}
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+                  placeholder="94131813201"
+                />
               </div>
             </div>
 

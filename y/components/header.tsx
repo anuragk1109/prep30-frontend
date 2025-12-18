@@ -6,13 +6,14 @@ import { useState, useEffect, useRef } from 'react';
 import { FiMenu, FiX, FiUser, FiLogIn, FiLogOut, FiUserPlus, FiBookOpen, FiSearch, FiChevronDown, FiDollarSign } from 'react-icons/fi';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Header() {
+  const { user, isAuthenticated, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const searchRef = useRef<HTMLInputElement>(null);
   const pathname = usePathname();
@@ -84,7 +85,7 @@ export default function Header() {
       name: 'Logout', 
       href: '#', 
       icon: <FiLogOut className="mr-2 h-4 w-4" />,
-      onClick: () => setIsLoggedIn(false)
+      onClick: logout
     },
   ];
 
@@ -108,8 +109,8 @@ export default function Header() {
       <div className="bg-gradient-to-r from-blue-700 to-blue-600 text-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14">
-            {/* Search Bar */}
-            <div className="flex-1 max-w-2xl mx-4">
+            {/* Search Bar - Hidden on mobile */}
+            <div className="hidden sm:flex flex-1 max-w-2xl mx-4">
               <form onSubmit={handleSearch} className="relative w-full">
                 <div className={cn(
                   "flex items-center rounded-lg overflow-hidden transition-all duration-200 shadow-sm",
@@ -156,56 +157,63 @@ export default function Header() {
             </div>
 
             {/* User Actions */}
-            <div className="ml-4 flex items-center space-x-4">
-              {isLoggedIn ? (
+            <div className="flex items-center space-x-2 sm:space-x-4">
+              {isAuthenticated ? (
                 <div className="relative">
                   <button 
                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                    className="flex items-center space-x-2 text-sm font-medium text-white hover:text-blue-100 focus:outline-none"
+                    className="flex items-center space-x-1 sm:space-x-2 text-sm font-medium text-white hover:text-blue-100 focus:outline-none"
                   >
-                    <div className="h-8 w-8 rounded-full bg-blue-800 flex items-center justify-center">
-                      <FiUser className="h-4 w-4" />
+                    <div className="h-6 w-6 sm:h-8 sm:w-8 rounded-full bg-blue-800 flex items-center justify-center">
+                      <FiUser className="h-3 w-3 sm:h-4 sm:w-4" />
                     </div>
-                    <span>My Account</span>
-                    <FiChevronDown className="h-4 w-4" />
+                    <span className="hidden sm:inline">{user?.name || 'My Account'}</span>
+                    <FiChevronDown className="hidden sm:block h-3 w-3 sm:h-4 sm:w-4" />
                   </button>
                   
                   {isUserMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                      <div className="py-1">
-                        {userNavLinks.map((link) => (
-                          <Link
-                            key={link.name}
-                            href={link.href}
-                            onClick={(e) => {
-                              if (link.onClick) {
-                                e.preventDefault();
-                                link.onClick();
-                              }
-                              setIsUserMenuOpen(false);
-                            }}
-                            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                          >
-                            {link.icon}
-                            {link.name}
-                          </Link>
-                        ))}
+                    <>
+                      {/* Backdrop to hide content behind */}
+                      <div 
+                        className="fixed inset-0 z-40"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      />
+                      <div className="absolute right-0 mt-2 w-48 sm:w-56 rounded-md shadow-xl bg-white border border-gray-200 z-50">
+                        <div className="py-1">
+                          {userNavLinks.map((link) => (
+                            <Link
+                              key={link.name}
+                              href={link.href}
+                              onClick={(e) => {
+                                if (link.onClick) {
+                                  e.preventDefault();
+                                  link.onClick();
+                                }
+                                setIsUserMenuOpen(false);
+                              }}
+                              className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                            >
+                              {link.icon}
+                              {link.name}
+                            </Link>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    </>
                   )}
                 </div>
               ) : (
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-1 sm:space-x-2">
                   <Link
                     href="/login"
-                    className="px-4 py-2 text-sm font-medium text-white hover:text-blue-100"
+                    className="px-2 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white hover:text-blue-100"
                   >
                     Sign In
                   </Link>
-                  <span className="text-blue-300">|</span>
+                  <span className="text-blue-300 hidden sm:inline">|</span>
                   <Link
                     href="/register"
-                    className="px-4 py-2 text-sm font-medium text-white bg-blue-800 hover:bg-blue-900 rounded-md transition-colors"
+                    className="px-2 sm:px-4 py-2 text-xs sm:text-sm font-medium text-white bg-blue-800 hover:bg-blue-900 rounded-md transition-colors"
                   >
                     Sign Up
                   </Link>
@@ -296,6 +304,30 @@ export default function Header() {
         {/* Mobile menu */}
         <div className={`md:hidden ${isMenuOpen ? 'block' : 'hidden'}`}>
           <div className="pt-2 pb-3 space-y-1 bg-white">
+            {/* Mobile Search */}
+            <div className="px-4 py-2">
+              <form onSubmit={handleSearch} className="relative w-full">
+                <div className="flex items-center rounded-lg overflow-hidden shadow-sm border border-gray-300">
+                  <div className="pl-3 text-gray-400">
+                    <FiSearch className="h-4 w-4" />
+                  </div>
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search courses..."
+                    className="w-full py-2 px-3 border-none focus:ring-0 focus:outline-none text-gray-800 text-sm placeholder-gray-400"
+                  />
+                  <button
+                    type="submit"
+                    className="px-3 py-2 bg-blue-600 text-white text-sm font-medium hover:bg-blue-700"
+                  >
+                    Search
+                  </button>
+                </div>
+              </form>
+            </div>
+            
             {mainNavLinks.map((link) => (
               <div key={link.name}>
                 <Link
@@ -335,7 +367,7 @@ export default function Header() {
             
             <div className="border-t border-gray-200 my-2"></div>
             
-            {isLoggedIn ? (
+            {isAuthenticated ? (
               <div className="px-4 py-2">
                 <p className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2">My Account</p>
                 {userNavLinks.map((link) => (

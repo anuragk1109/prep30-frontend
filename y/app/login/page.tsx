@@ -4,8 +4,11 @@ import { useState } from 'react';
 import { FiMail, FiLock, FiEye, FiEyeOff, FiAlertCircle, FiGithub, FiTwitter, FiFacebook } from 'react-icons/fi';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { loginUser } from '@/lib/auth';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Login = () => {
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -30,13 +33,18 @@ const Login = () => {
 
     try {
       setIsLoading(true);
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // For demo purposes, redirect to dashboard on successful login
-      router.push('/dashboard');
+      const response = await loginUser({ email, password });
+      
+      // Store token and user in auth context
+      if (response.token) {
+        login(response.token, response.user);
+      }
+      
+      // Redirect to profile page on successful login
+      router.push('/profile');
     } catch (err) {
-      setError('Invalid email or password. Please try again.');
+      setError(err instanceof Error ? err.message : 'Invalid email or password. Please try again.');
       console.error('Login error:', err);
     } finally {
       setIsLoading(false);
