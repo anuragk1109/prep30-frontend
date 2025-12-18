@@ -15,9 +15,11 @@ interface LoginData {
   password: string;
 }
 
+const API_BASE_URL = (process.env.NEXT_PUBLIC_API_BASE_URL || 'https://prep30-backend.onrender.com').replace(/\/$/, '');
+
 export const loginUser = async (userData: LoginData): Promise<LoginResponse> => {
   try {
-    const response = await fetch('http://localhost:5000/api/auth/login', {
+    const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -61,7 +63,7 @@ interface RegisterData {
 
 export const registerUser = async (userData: RegisterData): Promise<RegisterResponse> => {
   try {
-    const response = await fetch('http://localhost:5000/api/auth/register', {
+    const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

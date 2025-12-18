@@ -14,10 +14,10 @@ const mockData = {
   rank: 256,
   percentile: 92,
   subjects: [
-    { name: 'Quantitative Aptitude', score: 82, total: 100, trend: 'up', questions: 120, correct: 98, timeSpent: '12h 45m' },
-    { name: 'Logical Reasoning', score: 75, total: 100, trend: 'up', questions: 80, correct: 60, timeSpent: '10h 20m' },
-    { name: 'English Language', score: 68, total: 100, trend: 'down', questions: 60, correct: 41, timeSpent: '8h 15m' },
-    { name: 'General Awareness', score: 85, total: 100, trend: 'up', questions: 40, correct: 34, timeSpent: '7h 30m' },
+    { name: 'Quantitative Aptitude', score: 82, total: 100, trend: 'up' as const, questions: 120, correct: 98, timeSpent: '12h 45m' },
+    { name: 'Logical Reasoning', score: 75, total: 100, trend: 'up' as const, questions: 80, correct: 60, timeSpent: '10h 20m' },
+    { name: 'English Language', score: 68, total: 100, trend: 'down' as const, questions: 60, correct: 41, timeSpent: '8h 15m' },
+    { name: 'General Awareness', score: 85, total: 100, trend: 'up' as const, questions: 40, correct: 34, timeSpent: '7h 30m' },
   ],
   recentTests: [
     { id: 1, name: 'SSC CGL Tier 1 - Mock 5', date: '2023-11-15', score: 82, total: 100, percentile: 94 },
