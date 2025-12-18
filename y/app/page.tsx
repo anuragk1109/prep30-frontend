@@ -1,13 +1,11 @@
 import Hero from "@/components/hero";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
+import FeaturedQuiz from "@/components/featured-quiz";
+
 export default function Home() {
-    return (
-      <>
-    <Header/>
-    <Hero/>
-    <Footer/>
-    </>
-    
-    )
+  return (
+    <main>
+      <Hero />
+      <FeaturedQuiz />
+    </main>
+  );
 }
