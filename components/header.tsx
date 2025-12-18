@@ -7,6 +7,7 @@ import { FiMenu, FiX, FiUser, FiLogIn, FiLogOut, FiUserPlus, FiBookOpen, FiSearc
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
+import { getCourses } from "@/lib/auth";
 
 export default function Header() {
   const { user, isAuthenticated, logout } = useAuth();
@@ -15,6 +16,7 @@ export default function Header() {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [scrolled, setScrolled] = useState(false);
+  const [courseCategories, setCourseCategories] = useState<string[]>([]);
   const searchRef = useRef<HTMLInputElement>(null);
   const pathname = usePathname();
   const router = useRouter();
@@ -32,6 +34,22 @@ export default function Header() {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const loadCourseCategories = async () => {
+      try {
+        const courses = await getCourses();
+        const categories = Array.from(new Set((courses || []).map((c: any) => c?.category || 'Other')))
+          .filter(Boolean)
+          .sort();
+        setCourseCategories(categories);
+      } catch {
+        setCourseCategories([]);
+      }
+    };
+
+    loadCourseCategories();
   }, []);
 
   const mainNavLinks = [
@@ -52,16 +70,6 @@ export default function Header() {
       href: '/contact',
       submenu: false
     },
-  ];
-
-  const courseCategories = [
-    'Web Development',
-    'Data Science',
-    'Mobile Development',
-    'Business',
-    'Marketing',
-    'Design',
-    'Photography'
   ];
 
   const userNavLinks = [
