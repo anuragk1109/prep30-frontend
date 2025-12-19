@@ -245,7 +245,7 @@ export default function Header() {
             <div className="flex-shrink-0">
               <Link href="/" className="flex items-center">
                 <Image
-                  src="/prep30.svg"
+                  src="/preptocrack-logo.svg"
                   alt="Prep30"
                   width={140}
                   height={40}

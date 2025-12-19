@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Prep30",
+  title: "Preptocrack",
   description: "Crack exams. Two quizzes daily.All India tests.",
   icons: {
     icon: "/prep30.svg",

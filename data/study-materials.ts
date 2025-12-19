@@ -13,6 +13,35 @@ import {
   cicdContent,
   highAvailabilityContent
 } from './courses/aws';
+import { physics as iitPhysics, chemistry as iitChemistry, mathematics } from './courses/iit-jee';
+import { physics as neetPhysics, chemistry as neetChemistry, biology, biotechnology } from './courses/neet';
+import { 
+  foundations, 
+  complexity, 
+  arrays, 
+  strings, 
+  linkedLists, 
+  stack, 
+  queue, 
+  hashing, 
+  recursion, 
+  backtracking, 
+  searching, 
+  sorting, 
+  twoPointers, 
+  binarySearch, 
+  trees, 
+  heaps, 
+  tries, 
+  graphs, 
+  greedy, 
+  divideConquer, 
+  dynamicProgramming, 
+  advancedTrees, 
+  stringAlgorithms, 
+  disjointSet, 
+  bitManipulation 
+} from './courses/dsa';
 
 export const studyMaterialCategories: StudyMaterialCategory[] = [
   {
@@ -56,7 +85,7 @@ export const courses: Course[] = [
     instructor: 'Expert Faculty',
     duration: '12 months',
     level: 'advanced',
-    subjects: [],
+    subjects: [iitPhysics, iitChemistry, mathematics],
     createdAt: '2024-01-01',
     updatedAt: '2024-01-01'
   },
@@ -68,7 +97,7 @@ export const courses: Course[] = [
     instructor: 'Medical Experts',
     duration: '12 months',
     level: 'advanced',
-    subjects: [],
+    subjects: [neetPhysics, neetChemistry, biology, biotechnology],
     createdAt: '2024-01-01',
     updatedAt: '2024-01-01'
   },
@@ -80,7 +109,33 @@ export const courses: Course[] = [
     instructor: 'Programming Experts',
     duration: '6 months',
     level: 'intermediate',
-    subjects: [],
+    subjects: [
+      foundations, 
+      complexity, 
+      arrays, 
+      strings, 
+      linkedLists, 
+      stack, 
+      queue, 
+      hashing, 
+      recursion, 
+      backtracking, 
+      searching, 
+      sorting, 
+      twoPointers, 
+      binarySearch, 
+      trees, 
+      heaps, 
+      tries, 
+      graphs, 
+      greedy, 
+      divideConquer, 
+      dynamicProgramming, 
+      advancedTrees, 
+      stringAlgorithms, 
+      disjointSet, 
+      bitManipulation
+    ],
     createdAt: '2024-01-01',
     updatedAt: '2024-01-01'
   },

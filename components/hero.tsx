@@ -4,8 +4,8 @@ export default function Hero(){
         <section className="">
             <div className=" flex items-center justify-center">
                 <Image 
-                src="/hero.png"
-                alt="Prep30"
+                src="/preptocrack-hero.svg"
+                alt="Preptocrack"
                 width={1000}
                 height={1000}
                 />

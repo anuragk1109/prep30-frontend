@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function StudyMaterialPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 pt-20 pb-8">
       <h1 className="text-3xl font-bold text-gray-900 mb-8">Study Materials</h1>
       <p className="text-gray-600 mb-8">Select a course to access study materials</p>
       
