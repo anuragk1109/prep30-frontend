@@ -61,6 +61,11 @@ export default function Header() {
       icon: <FiChevronDown className="ml-1 h-4 w-4" />
     },
     { 
+      name: 'Study Materials', 
+      href: '/study-material',
+      submenu: false
+    },
+    { 
       name: 'About', 
       href: '/about',
       submenu: false
