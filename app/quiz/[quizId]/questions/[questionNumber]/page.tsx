@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
+import { SubscriptionCheck } from '@/components/SubscriptionCheck';
 
 // Mock question data - replace with actual data fetching
 const quizData = {
@@ -46,6 +48,14 @@ export default function QuestionPage({ params }: { params: { quizId: string; que
   const router = useRouter();
   const { quizId, questionNumber } = params;
   const currentQuestionNum = parseInt(questionNumber);
+
+  const { isAuthenticated, isLoading, user } = useAuth();
+
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.push('/login');
+    }
+  }, [isAuthenticated, isLoading, router]);
   
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
@@ -63,6 +73,16 @@ export default function QuestionPage({ params }: { params: { quizId: string; que
     setShowResult(false);
   }, [questionNumber]);
   
+  if (isLoading || !isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-500"></div>
+      </div>
+    );
+  }
+
+  // For now, allow all authenticated users (subscription gating disabled)
+
   if (!currentQuestion) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">

@@ -8,10 +8,9 @@ const plan = {
   price: '₹30',
   description: 'Unlock all quizzes with one simple monthly plan.',
   features: [
-    'Unlock all quizzes',
+    'Unlock all courses and quizzes',
     'Unlimited attempts',
-    'Access on all devices',
-    'Cancel anytime'
+    'Access on all devices'
   ],
   cta: 'Proceed to Payment'
 };
@@ -20,13 +19,13 @@ export default function PricingPage() {
   const router = useRouter();
 
   return (
-    <div className="pt-24 pb-16 bg-gradient-to-b from-sky-50 to-white min-h-screen">
+    <div className="pb-16 bg-gradient-to-b from-sky-50 to-white min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Hero Section */}
         <div className="text-center mb-12">
           <h1 className="text-3xl sm:text-4xl font-bold text-sky-900 mb-4">Simple, Transparent Pricing</h1>
           <p className="text-base sm:text-xl text-gray-600 max-w-3xl mx-auto">
-            One plan. One price. Unlimited quiz access.
+            One plan. One price. Unlimited course and quiz access.
           </p>
         </div>
 

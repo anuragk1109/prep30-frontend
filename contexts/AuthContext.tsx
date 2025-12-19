@@ -8,6 +8,12 @@ interface User {
   email: string;
   mobile: string;
   role: string;
+  subscriptionStatus?: 'active' | 'inactive' | 'cancelled' | string;
+  subscription?: {
+    status?: 'active' | 'inactive' | 'cancelled' | string;
+    plan?: string;
+    endDate?: string;
+  };
 }
 
 interface AuthContextType {

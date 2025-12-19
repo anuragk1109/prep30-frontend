@@ -45,10 +45,8 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold text-sky-900 mb-12">Meet Our Team</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { name: 'John Doe', role: 'Founder & CEO', image: '/team1.jpg' },
-              { name: 'Jane Smith', role: 'Head of Education', image: '/team2.jpg' },
-              { name: 'Robert Johnson', role: 'Senior Educator', image: '/team3.jpg' },
-              { name: 'Emily Davis', role: 'Content Developer', image: '/team4.jpg' },
+              { name: 'Anurag Kashyap', role: 'Founder & CEO', image: '/team1.jpg' },
+              
             ].map((member, index) => (
               <div key={index} className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
                 <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-gray-200 overflow-hidden">
