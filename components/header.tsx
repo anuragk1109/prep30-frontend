@@ -55,13 +55,13 @@ export default function Header() {
   const mainNavLinks = [
     
     { 
-      name: 'Courses', 
+      name: 'Quiz', 
       href: '/courses',
       submenu: true,
       icon: <FiChevronDown className="ml-1 h-4 w-4" />
     },
     { 
-      name: 'Study Materials', 
+      name: 'Courses', 
       href: '/study-material',
       submenu: false
     },

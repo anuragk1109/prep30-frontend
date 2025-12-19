@@ -1,4 +1,18 @@
-import { StudyMaterial, Course, StudyMaterialCategory } from '@/types/study-material';
+import { StudyMaterial, Course, StudyMaterialCategory, Subject, Chapter, Topic } from '@/types/study-material';
+import { 
+  cloudComputingContent,
+  iamContent,
+  computeServicesContent,
+  networkingContent,
+  storageServicesContent,
+  databaseServicesContent,
+  containersContent,
+  serverlessContent,
+  monitoringContent,
+  securityContent,
+  cicdContent,
+  highAvailabilityContent
+} from './courses/aws';
 
 export const studyMaterialCategories: StudyMaterialCategory[] = [
   {
@@ -42,7 +56,7 @@ export const courses: Course[] = [
     instructor: 'Expert Faculty',
     duration: '12 months',
     level: 'advanced',
-    studyMaterials: [],
+    subjects: [],
     createdAt: '2024-01-01',
     updatedAt: '2024-01-01'
   },
@@ -54,7 +68,7 @@ export const courses: Course[] = [
     instructor: 'Medical Experts',
     duration: '12 months',
     level: 'advanced',
-    studyMaterials: [],
+    subjects: [],
     createdAt: '2024-01-01',
     updatedAt: '2024-01-01'
   },
@@ -66,7 +80,7 @@ export const courses: Course[] = [
     instructor: 'Programming Experts',
     duration: '6 months',
     level: 'intermediate',
-    studyMaterials: [],
+    subjects: [],
     createdAt: '2024-01-01',
     updatedAt: '2024-01-01'
   },
@@ -78,7 +92,20 @@ export const courses: Course[] = [
     instructor: 'Cloud Experts',
     duration: '3 months',
     level: 'intermediate',
-    studyMaterials: [],
+    subjects: [
+    cloudComputingContent,
+    iamContent,
+    computeServicesContent,
+    networkingContent,
+    storageServicesContent,
+    databaseServicesContent,
+    containersContent,
+    serverlessContent,
+    monitoringContent,
+    securityContent,
+    cicdContent,
+    highAvailabilityContent
+  ],
     createdAt: '2024-01-01',
     updatedAt: '2024-01-01'
   }
@@ -101,4 +128,31 @@ export const getStudyMaterialBySlug = (slug: string): StudyMaterial | undefined 
 // Helper function to get course by slug
 export const getCourseBySlug = (courseSlug: string): Course | undefined => {
   return courses.find(course => course.slug === courseSlug);
+};
+
+export const getSubjectBySlug = (
+  courseSlug: string,
+  subjectSlug: string
+): Subject | undefined => {
+  const course = getCourseBySlug(courseSlug);
+  return course?.subjects?.find(subject => subject.slug === subjectSlug);
+};
+
+export const getChapterBySlug = (
+  courseSlug: string,
+  subjectSlug: string,
+  chapterSlug: string
+): Chapter | undefined => {
+  const subject = getSubjectBySlug(courseSlug, subjectSlug);
+  return subject?.chapters?.find(chapter => chapter.slug === chapterSlug);
+};
+
+export const getTopicBySlug = (
+  courseSlug: string,
+  subjectSlug: string,
+  chapterSlug: string,
+  topicSlug: string
+): Topic | undefined => {
+  const chapter = getChapterBySlug(courseSlug, subjectSlug, chapterSlug);
+  return chapter?.topics?.find(topic => topic.slug === topicSlug);
 };
