@@ -25,7 +25,7 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
   if (!topic) notFound();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-blue-50 mt-4">
       <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb Navigation */}
         <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-8">

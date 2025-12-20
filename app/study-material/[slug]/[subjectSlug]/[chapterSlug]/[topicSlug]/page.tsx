@@ -33,7 +33,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
   if (!topic) notFound();
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6 lg:px-8 mt-4 bg-white">
       <div className="mb-8">
         <div className="flex flex-col gap-2">
           <Link

@@ -12,7 +12,7 @@ export default async function CourseStudyMaterialsPage({ params }: CourseStudyMa
   if (!course) notFound();
 
   return (
-    <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 mt-4 bg-white">
       {/* Course Header */}
       <div className="mb-8">
         <Link 
