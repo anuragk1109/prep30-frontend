@@ -46,7 +46,7 @@ export default function FeaturedQuiz() {
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Start Practicing Now</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Select a course and start practicing with quizzes from our database.
+            Select a course and start practicing with quizzes from AI generated questions.
           </p>
         </div>
 
