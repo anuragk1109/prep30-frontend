@@ -3,7 +3,7 @@ export default function Description() {
     <section className="bg-white py-16 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-6">
+          <h2 className="text-4xl font-bold mb-6 text-black">
             Your Complete Exam Preparation Companion
           </h2>
           <p className="text-xl text-gray-600 mb-4">
@@ -83,18 +83,18 @@ export default function Description() {
         </div>
 
         <div className="text-center bg-gradient-to-r from-blue-50 to-purple-50 p-8 rounded-lg">
-          <h3 className="text-2xl font-bold mb-4">Why Choose Preptocrack?</h3>
+          <h3 className="text-2xl font-bold mb-4 text-black">Why Choose Preptocrack?</h3>
           <div className="grid md:grid-cols-3 gap-6 text-left">
             <div>
-              <h4 className="font-semibold mb-2">Affordable Learning</h4>
+              <h4 className="font-semibold mb-2 text-black">Affordable Learning</h4>
               <p className="text-gray-600">Premium quality education at just ₹30/month - less than a cup of coffee!</p>
             </div>
             <div>
-              <h4 className="font-semibold mb-2">AI-Enhanced Content</h4>
+              <h4 className="font-semibold mb-2 text-black">AI-Enhanced Content</h4>
               <p className="text-gray-600">Smart explanations that adapt to your learning style and pace.</p>
             </div>
             <div>
-              <h4 className="font-semibold mb-2">Complete Preparation</h4>
+              <h4 className="font-semibold mb-2 text-black">Complete Preparation</h4>
               <p className="text-gray-600">Everything you need for competitive exams in one platform.</p>
             </div>
           </div>
