@@ -1,54 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { FiUser, FiMail, FiPhone, FiEdit2, FiLogOut, FiBookOpen, FiSettings, FiChevronRight, FiTrendingUp, FiTarget, FiActivity } from 'react-icons/fi';
+import { useState } from 'react';
+import { FiUser, FiMail, FiPhone, FiEdit2, FiLogOut, FiActivity } from 'react-icons/fi';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
-import QuizHistory from '@/components/quiz-history';
 import StreakCalendar from '@/components/streak-calendar';
-import { getUserStats } from '@/lib/quiz';
-
-interface UserStats {
-  totalQuizzes: number;
-  averageScore: number;
-  bestScore: number;
-  coursesEnrolled: number;
-}
 
 const Profile = () => {
-  const { user, isAuthenticated, logout, getCurrentStreak, token } = useAuth();
+  const { user, isAuthenticated, logout, getCurrentStreak } = useAuth();
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
-  const [userStats, setUserStats] = useState<UserStats>({
-    totalQuizzes: 0,
-    averageScore: 0,
-    bestScore: 0,
-    coursesEnrolled: 0
-  });
-  const [statsLoading, setStatsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUserStats = async () => {
-      if (!isAuthenticated || !user || !token) return;
-
-      try {
-        const stats = await getUserStats(user.id, token);
-        setUserStats({
-          totalQuizzes: stats.totalQuizzes || 0,
-          averageScore: stats.averageScore || 0,
-          bestScore: stats.bestScore || 0,
-          coursesEnrolled: stats.coursesEnrolled || 0
-        });
-      } catch (error) {
-        console.error('Error fetching user stats:', error);
-      } finally {
-        setStatsLoading(false);
-      }
-    };
-
-    fetchUserStats();
-  }, [isAuthenticated, user, token]);
 
   if (!isAuthenticated || !user) {
     router.push('/login');
@@ -70,15 +32,6 @@ const Profile = () => {
         { label: 'Full Name', value: user.name, icon: <FiUser className="h-4 w-4" /> },
         { label: 'Email Address', value: user.email, icon: <FiMail className="h-4 w-4" /> },
         { label: 'Mobile Number', value: user.mobile, icon: <FiPhone className="h-4 w-4" /> },
-      ]
-    },
-    {
-      title: 'Account Settings',
-      icon: <FiSettings className="h-5 w-5" />,
-      items: [
-        { name: 'Edit Profile', href: '/profile/edit', icon: <FiEdit2 className="h-4 w-4" /> },
-        { name: 'My Courses', href: '/my-courses', icon: <FiBookOpen className="h-4 w-4" /> },
-        { name: 'Account Settings', href: '/settings', icon: <FiSettings className="h-4 w-4" /> },
       ]
     }
   ];
@@ -122,74 +75,29 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Dashboard Stats Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
-          <div className="bg-gradient-to-r from-blue-500 to-blue-600 shadow rounded-lg p-3 sm:p-4 text-white">
+        {/* Dashboard Stats Cards - Only Streak */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4 sm:mb-6">
+          <div className="bg-white shadow rounded-lg p-3 sm:p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-blue-100 text-xs sm:text-sm">Total Quizzes</p>
-                <p className="text-lg sm:text-2xl font-bold">
-                  {statsLoading ? '...' : userStats.totalQuizzes}
-                </p>
+                <p className="text-gray-500 text-xs sm:text-sm">Current Streak</p>
+                <p className="text-lg sm:text-2xl font-bold text-gray-900">{currentStreak}</p>
               </div>
-              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-blue-400 flex items-center justify-center">
-                <FiBookOpen className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-orange-50 flex items-center justify-center">
+                <FiActivity className="h-5 w-5 sm:h-6 sm:w-6 text-orange-600" />
               </div>
             </div>
           </div>
-
-          <div className="bg-gradient-to-r from-green-500 to-green-600 shadow rounded-lg p-3 sm:p-4 text-white">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-green-100 text-xs sm:text-sm">Avg Score</p>
-                <p className="text-lg sm:text-2xl font-bold">
-                  {statsLoading ? '...' : `${userStats.averageScore}%`}
-                </p>
-              </div>
-              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-green-400 flex items-center justify-center">
-                <FiTrendingUp className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-r from-orange-500 to-orange-600 shadow rounded-lg p-3 sm:p-4 text-white">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-orange-100 text-xs sm:text-sm">Current Streak</p>
-                <p className="text-lg sm:text-2xl font-bold">{currentStreak}</p>
-              </div>
-              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-orange-400 flex items-center justify-center">
-                <FiActivity className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-r from-purple-500 to-purple-600 shadow rounded-lg p-3 sm:p-4 text-white">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-purple-100 text-xs sm:text-sm">Best Score</p>
-                <p className="text-lg sm:text-2xl font-bold">
-                  {statsLoading ? '...' : `${userStats.bestScore}%`}
-                </p>
-              </div>
-              <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-purple-400 flex items-center justify-center">
-                <FiTarget className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-              </div>
-            </div>
-          </div>
+          
+          {/* Empty placeholder cards for grid alignment */}
+          <div className="hidden lg:block bg-white shadow rounded-lg p-3 sm:p-4 opacity-0"></div>
+          <div className="hidden lg:block bg-white shadow rounded-lg p-3 sm:p-4 opacity-0"></div>
+          <div className="hidden lg:block bg-white shadow rounded-lg p-3 sm:p-4 opacity-0"></div>
         </div>
 
-        {/* Dashboard Main Content */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
-          {/* Quiz History - Takes 2 columns on large screens */}
-          <div className="xl:col-span-2">
-            <QuizHistory userId={user.id} />
-          </div>
-
-          {/* Streak Calendar - Takes 1 column */}
-          <div className="xl:col-span-1">
-            <StreakCalendar userId={user.id} />
-          </div>
+        {/* Streak Calendar - Full Width */}
+        <div className="mb-4 sm:mb-6">
+          <StreakCalendar userId={user.id} />
         </div>
 
         {/* Personal Information Section */}

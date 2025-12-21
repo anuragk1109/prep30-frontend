@@ -45,7 +45,11 @@ export default function AboutPage() {
           <h2 className="text-3xl font-bold text-sky-900 mb-12">Meet Our Team</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { name: 'Anurag Kashyap', role: 'Founder & CEO', image: '/team1.jpg' },
+              { name: 'Anurag Kashyap', role: 'Developer & CEO', image: '/team1.jpg' },
+              {name:'Neha Kumari' , role:'Content Research Analyst & Co-Founder'},
+              {name:'Ishita Gupta', role:'Deployment and Opeartions Head & Co-Founder'},
+              {name:'Rajesh Kumar',role:'SBI Branch Manager & Banking Content Head'},
+              {name:'Satyendra Prasad Singh',role:'English Phd & English Content Analyst'}
               
             ].map((member, index) => (
               <div key={index} className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
@@ -69,8 +73,8 @@ export default function AboutPage() {
               <p className="text-sky-100">Active Students</p>
             </div>
             <div>
-              <div className="text-4xl font-bold mb-2">500+</div>
-              <p className="text-sky-100">Daily Quizzes</p>
+              <div className="text-4xl font-bold mb-2">2</div>
+              <p className="text-sky-100">Quizzes weekly for all courses</p>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">95%</div>
@@ -86,7 +90,7 @@ export default function AboutPage() {
             Join thousands of students who have improved their scores with our daily quizzes and comprehensive study materials.
           </p>
           <button className="bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-colors">
-            Get Started for Free
+            Get Started for only 30 rs.
           </button>
         </div>
       </div>
